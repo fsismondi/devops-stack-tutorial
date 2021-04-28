@@ -2,11 +2,22 @@ include::utils.adoc[]
 
 == Creating your Local Kubernetes Cluster
 
-Let's create a minimal working example following the link:https://devops-stack.io/docs/devops-stack/0.32.0/howtos/quickstart_k3s_docker.html[Quickstart for K3s on Docker].
+=== Objectives
+
+- create your Local Kubernetes Cluster on your local docker system using the Devops Stack.
+- onboard a hello-world app into the k8s cluster
+
+We will talk about: Terraform, DevOps Stack, Kubectl
+
+Estimated time: (?)
+
+---
 
 === 1. Write your Terraform Module for the K8s Cluster
 
 Without getting into too much detail, we will instantiate a Terraform module for link:https://devops-stack.io[the Devops Stack], which will provision the k8s cluster (among other things).
+
+You can go check the link:https://devops-stack.io/docs/devops-stack/0.32.0/howtos/quickstart_k3s_docker.html[Quickstart for K3s on Docker] if want to know more about it.
 
 Create a directory, e.g. `my-devops-project`, and create the `main.tf` terraform file in it:
 
@@ -83,7 +94,7 @@ This bundle of apps, all k8s-ready, is what we at link:camptocamp.com[Camptocamp
 
 Now, your k8s cluster's API is up and running, let's run something!
 
-=== 4. Deploy a `hello-world` Pod
+=== 4. Deploy a __hello-world__ Pod
 
 Let's spawn a very basic, short-lived pod into our k8s cluster.
 
@@ -108,7 +119,6 @@ $ kubectl logs hello-world
 
 You should see as logged output: "Hello world !!"
 
-
 [TIP]
 .Hip Hip Hurra!
 ====
@@ -116,13 +126,12 @@ If you have reached this part of the tutorial, then kudos to you!
 You have deployed a k8s cluster and deployed an app on it!
 ====
 
-
-Now, delete the pod, get ready for what's next:
+Finish with a bit of cleaning up:
 
 ```shell
 $ kubectl delete pod hello-world
 ```
 
-== Next
+---
 
-link:chapter-2.html[Chapter 2: ???]
+include::chapters.adoc[]

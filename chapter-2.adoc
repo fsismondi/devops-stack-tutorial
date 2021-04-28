@@ -2,19 +2,20 @@ include::utils.adoc[]
 
 == Onboarding a `web app` into the K8s Cluster
 
-On this chapter we will look into how we can onboard our web app into k8s.
-Before doing so we 
-[TIP]
-.WIP
-====
-Spoil a bit what this chapter describes
-====
+=== Objectives
 
+- onboarding a `web app` into the K8s Cluster
+
+We will talk about: Containers, Kubernetes, Kubectl, Helm
+
+Estimated time: (?)
+
+---
 
 === 1. Containerizing the web app
 
 In container-land, it's a recommended practice to have a single process running on each container.
-Our e-commerce site, with a php based frontend and the API backend, can be deployed using two type of Pods, each Pod running a single container, each container running a single process.
+Our products site, with its php based frontend and the API backend, can be deployed using two type of Pods, each Pod running a single container, each container running a single process.
 
 For the sake of simplicity, we provide two example Dockerfiles for building these images using Docker.
 
@@ -22,7 +23,7 @@ You can run `git checkout dockerfile` to checkout the branch containing these fi
 
 [TIP]
 .Too Lazy to Build?
-The built images can be found in the following links ready to be pulled: +
+Images can be pulled directly at: +
 link:https://ghcr.io/camptocamp/course_docker_frontend[ghcr.io/camptocamp/course_docker_frontend] +
 link:https://ghcr.io/camptocamp/course_docker_backend[ghcr.io/camptocamp/course_docker_backend]
 
@@ -42,32 +43,23 @@ link:https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[k8s D
 and a
 link:https://kubernetes.io/docs/concepts/services-networking/service/[k8s Service]
 
-First, create `back-deployment.yaml`: 
+First, create `backend-deployment.yaml` and `backend-service.yaml`:
 
 [source,yaml]
 ----
-include::back-deployment.yaml[back-deployment.yaml]
+include::backend-deployment.yaml[backend-deployment.yaml]
 ----
-
-Once we __apply__ this file to k8s the Pod containing our backend service -among other things- will be spawned.
-
-**So.. can we run this for once and for all?**
-
-__Patience, my blue friend__. We need to make Pod's running service available to other Pods -and in the future to the outer world- with a 
-link:https://kubernetes.io/docs/concepts/services-networking/service/[k8s Service]
-
-So create a file named `back-service.yaml`:
 
 [source,yaml]
 ----
-include::back-service.yaml[back-service.yaml]
+include::backend-service.yaml[backend-service.yaml]
 ----
 
 **NOW** we are ready to onboard our __backend__ into the cluster, wohoo!
 So go ahead and apply the object declarations:
 
 ``` shell
-$ kubectl apply -f back-service.yaml -f back-deployment.yaml 
+$ kubectl apply -f backend-service.yaml -f backend-deployment.yaml 
 service/backend-service created
 service/backend-service created
 ```
@@ -91,7 +83,7 @@ backend-service   ClusterIP   10.43.205.209   <none>        80/TCP    7s
 
 **We have our __backend__ service running in the cluster `o/\o`.**
 
-[NOTE] 
+[TIP] 
 ====
 __backend__ service is only accessible from withing the cluster.
 k8s provides a __port-forward__  feature to pipe localhost ports to __Pods__ ports
@@ -105,7 +97,7 @@ $ export POD_NAME=backend-deployment-9598dcc4-7mm6z
 $ kubectl port-forward $POD_NAME 8080:8080
 ```
 
-Query the API from your localhost with a simple HTTP GET:
+Query the API:
 
 ```shell
 $ curl localhost:8080
@@ -119,16 +111,66 @@ $ curl localhost:8080
 }
 ```
 
-=== 2. Packaging and Upgrading your K8s packages using Helm
+**Wait... What about the __frontend__?**
 
-There's a 
+You can create the __frontend__ deployment and service just as we did for the __backend__ if you want to play a bit more with k8s object declarations.
+Fortunately for the continuation of this tutorial we have a shortcut.
 
-Let's checkout `helm` branch of  link:https://github.com/camptocamp/containers-course-app/[Here is a git repository] with the app we are going to use for this tutorial.
+=== 3. Packaging and Upgrading your K8s packages using Helm Chart
 
+Let's talk about package management.
+When working with a certain application or bundle of applications (stack) we want deterministic behavior for installing, upgrading, configuring, and removing them.
+Helm is the best fit out for this in the context of k8s.
 
-=== All aboard! 
+**Hands-on the Helm!**
 
+Let's git-checkout the `helm` branch of  link:https://github.com/camptocamp/containers-course-app/[containers-course-app].
+Inside `helm/containers-course-app` you will find Helm Chart written to manage the web app package with k8s.
 
+We can first simulate an `install`: 
 
-`helm install containers-course-app . --set ingress.enabled=true`
+```shell
+$ cd helm/containers-course-app
+$ helm install --debug --dry-run test helm/containers-course-app/
+```
 
+You may recognize on the output some similarities with the __yaml__ files we created before.
+
+Display default `values`:
+
+```shell
+helm show values helm/containers-course-app/
+```
+
+Display all content of the Helm Chart:
+```
+$ helm show all .
+```
+
+For the continuation of this tutorial, Helm will be out tool for interacting with the web-app and k8s, all of a sudden life becomes simpler.
+
+**All aboard!**
+
+Install the web-app into k8s cluster using Helm:
+
+```shell
+$ cd helm/containers-course-app
+$ helm install web-app .
+```
+
+For testing the app we should first forward ports of either __frontend__ or __backend__ Pod:
+
+```shell
+$ export POD_NAME=frontend-deployment-9598dcc4-7mm6z
+$ kubectl port-forward $POD_NAME 8080:8080
+```
+
+Open your browser using `http://localhost:8080`
+
+An html catalog of products is displayed? 
+
+Mission Accomplished.
+
+---
+
+include::chapters.adoc[]

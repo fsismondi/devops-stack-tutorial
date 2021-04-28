@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Creating your Local Kubernetes Cluster</title>
+<title>Tutorial: Shipping a Web App into a Kubernetes Cluster</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,121 +438,114 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Tutorial: Shipping a Web App into a Kubernetes Cluster</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_creating_your_local_kubernetes_cluster">Creating your Local Kubernetes Cluster</h2>
+<div id="preamble">
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_objectives">Objectives</h3>
+<div class="paragraph">
+<p>This tutorial aims to be a didactic kickstart material for onboarding a web app into a Kubernetes cluster from scratch.
+First, we will create a Kubernetes cluster on a local machine using <a href="https://devops-stack.io">the Devops Stack</a>.
+Then, we will run a rather trivial <code>hello-wolrd</code> app.
+Finally, we will deploy an app into the cluster and show how to manage it like a pro, with some of the best Open Source monitoring and deployment DevOps tools available.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tutorial_objectives">Tutorial Objectives</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>create your Local Kubernetes Cluster on your local docker system using the Devops Stack.</p>
+<p>creating your Local Kubernetes Cluster on your local docker system using <a href="https://devops-stack.io">the Devops Stack</a>.</p>
 </li>
 <li>
-<p>onboard a hello-world app into the k8s cluster</p>
+<p>onboarding a <code>hello-world</code> app into the k8s cluster</p>
+</li>
+<li>
+<p>onboarding a <code>web app</code> into the k8s cluster</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_context_the_web_app">Context: the Web App</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Lets imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
+You already have written parts of your app, a sort of a proof-of-concept.</p>
+</div>
+<div class="paragraph">
+<p>Your app consists of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a basic REST API backend which can be used for:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>retrieving products info</p>
+</li>
+<li>
+<p>buying products</p>
+</li>
+<li>
+<p>retrieving quantity of products views</p>
+</li>
+<li>
+<p>retrieving quantity of products bought</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>a basic frontend to interact with your REST API.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>We will talk about: Terraform, DevOps Stack, Kubectl</p>
+<p><a href="https://github.com/camptocamp/containers-course-app/">Here is a git repository</a> with the app we are going to use for this tutorial.
+The app consists of a backend written in 3 different languages (Go, Python and Java) and a frontend (written in PHP).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">💣</div>
+</td>
+<td class="content">
+The tutorial will use an example web app written by Camptocamp for trainings.
+This is simply a dummy client/server web app meant to be used for demo purposes only.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Estimated time: (?)</p>
+<p>Now, to set up some context, imagine the code still needs some enhancements but your friend insists that the sites needs to go live given that his warehouse is already full and new arrivals are coming in the upcoming weeks!
+So like a fluttering bird pushed from the nest your app needs to fly now.</p>
 </div>
-<hr>
 </div>
-<div class="sect2">
-<h3 id="_1_write_your_terraform_module_for_the_k8s_cluster">1. Write your Terraform Module for the K8s Cluster</h3>
+</div>
+<div class="sect1">
+<h2 id="_requirements">Requirements</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Without getting into too much detail, we will instantiate a Terraform module for <a href="https://devops-stack.io">the Devops Stack</a>, which will provision the k8s cluster (among other things).</p>
+<p>A few important requirements to take into account before going into production are:</p>
 </div>
-<div class="paragraph">
-<p>You can go check the <a href="https://devops-stack.io/docs/devops-stack/0.32.0/howtos/quickstart_k3s_docker.html">Quickstart for K3s on Docker</a> if want to know more about it.</p>
-</div>
-<div class="paragraph">
-<p>Create a directory, e.g. <code>my-devops-project</code>, and create the <code>main.tf</code> terraform file in it:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-hcl" data-lang="hcl">module "cluster" {
-  source = "git::https://github.com/camptocamp/devops-stack.git//modules/k3s/docker?ref=v0.30.0"
-  cluster_name = "my-cluster"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Create also a simple output file, named <code>outputs.tf</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-hcl" data-lang="hcl">output "kubeconfig" {
-  sensitive = true
-  value     = module.cluster.kubeconfig
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_2_deploy_the_cluster">2. Deploy the Cluster</h3>
-<div class="paragraph">
-<p>Now, let&#8217;s build the cluster using Terraform:</p>
-</div>
-<div class="paragraph">
-<p><a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">Install Terraform CLI</a> and then run:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$ terraform init
-$ terraform apply
-$ terraform output kubeconfig</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_3_verify_the_k8s_cluster_api_is_up">3. Verify the K8s Cluster API is up</h3>
-<div class="paragraph">
-<p>Now the cluster is running using local Docker containers.
-To verify this, <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/">install <code>kubectl</code></a> to interact with your cluster from your favorite terminal.</p>
-</div>
-<div class="paragraph">
-<p>Export the path to the kubeconfig file:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$ export KUBECONFIG=$PWD/kubeconfig.yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Query the API to list the cluster pods:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$ kubectl get pods --all-namespaces
-
-NAMESPACE               NAME                                                        READY   STATUS    RESTARTS   AGE
-kube-system             local-path-provisioner-6d59f47c7-nq647                      1/1     Running   0          19m
-kube-system             metrics-server-7949d47784-4zvd7                             1/1     Running   0          17m
-kube-system             coredns-7944c66d8d-x2jlr                                    1/1     Running   0          19m
-argocd                  argocd-redis-5644d9f997-4wlgj                               1/1     Running   0          19m
-argocd                  argocd-dex-server-b7d78f98-rvh2g                            1/1     Running   0          19m
-argocd                  argocd-server-56986c4596-fgbzn                              1/1     Running   0          19m
-argocd                  argocd-application-controller-5c5d495d77-nkpvw              1/1     Running   0          19m
-argocd                  argocd-repo-server-59f5678fcd-qjs5x                         1/1     Running   0          19m
-kube-prometheus-stack   kube-prometheus-stack-operator-54944cdfcc-ddq92             1/1     Running   0          18m
-kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-f8jpp        1/1     Running   0          18m
-kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-gpqvg        1/1     Running   0          18m
-kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-wrn5g        1/1     Running   0          18m
-kube-prometheus-stack   kube-prometheus-stack-kube-state-metrics-6b65958dcd-vhd6f   1/1     Running   0          18m
-kube-prometheus-stack   kube-prometheus-stack-grafana-5b78d78748-zc8dj              2/2     Running   0          18m
-(...)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As you may have noticed, inside of the k8s cluster we already have several pods running.
-Don&#8217;t panic, this is normal…
-They are meant to handle the app monitoring and operations.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The app only implements a minimal set of features, new ones will come in the near future, hence <strong>several iterations of the site may have to be rolled-out</strong>.</p>
+</li>
+<li>
+<p>These iterations may contains bugs as new features are introduced, hence <strong>the deployment may have to be rolled-back to a previous working state</strong>.</p>
+</li>
+<li>
+<p>The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence <strong>the deployment may have to be scaled-up</strong>.</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -561,81 +554,15 @@ They are meant to handle the app monitoring and operations.</p>
 <div class="title">💡</div>
 </td>
 <td class="content">
-This bundle of apps, all k8s-ready, is what we at <a href="camptocamp.com">Camptocamp</a> call <a href="https://devops-stack.io">the Devops Stack</a>, we will come back to this later, but in short they will provide out-of-the-box the tools you need to manage and operate your app.
-</td>
-</tr>
-</table>
-</div>
+<div class="title">Start day 1 on the right foot!</div>
 <div class="paragraph">
-<p>Now, your k8s cluster&#8217;s API is up and running, let&#8217;s run something!</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_4_deploy_a_hello_world_pod">4. Deploy a <em>hello-world</em> Pod</h3>
-<div class="paragraph">
-<p>Let&#8217;s spawn a very basic, short-lived pod into our k8s cluster.</p>
-</div>
-<div class="paragraph">
-<p>First, create a <code>pod-hello-world.yaml</code> file:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">apiVersion: v1
-kind: Pod
-metadata:
-  name: hello-world
-spec:
-  restartPolicy: Never
-  containers:
-    - name: hello-world
-      image: "ubuntu:20.04"
-      command: ["/bin/echo", "Hello world !!"]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Proceed to spawn pod:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$ kubectl apply -f pod-hello-world.yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Check the output:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$ kubectl logs hello-world</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should see as logged output: "Hello world !!"</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">💡</div>
-</td>
-<td class="content">
-<div class="title">Hip Hip Hurra!</div>
-<div class="paragraph">
-<p>If you have reached this part of the tutorial, then kudos to you!
-You have deployed a k8s cluster and deployed an app on it!</p>
+<p>This tutorial will demonstrate how onboarding the web app into a Kubernetes cluster provides you with an environment where these requirements are met off the shelf.
+You will be able to test k8s features from the comfort of your localhost.
+Redeploying into other k8s clusters will be straightforward.</p>
 </div>
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Finish with a bit of cleaning up:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$ kubectl delete pod hello-world</code></pre>
-</div>
-</div>
-<hr>
 </div>
 <div class="sect2">
 <h3 id="_chapters">Chapters</h3>
@@ -650,7 +577,7 @@ You have deployed a k8s cluster and deployed an app on it!</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-29 01:54:14 +0200
+Last updated 2021-04-28 23:48:07 +0200
 </div>
 </div>
 </body>
