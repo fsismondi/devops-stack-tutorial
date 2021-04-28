@@ -1,0 +1,134 @@
+include::utils.adoc[]
+
+== Onboarding a `web app` into the K8s Cluster
+
+On this chapter we will look into how we can onboard our web app into k8s.
+Before doing so we 
+[TIP]
+.WIP
+====
+Spoil a bit what this chapter describes
+====
+
+
+=== 1. Containerizing the web app
+
+In container-land, it's a recommended practice to have a single process running on each container.
+Our e-commerce site, with a php based frontend and the API backend, can be deployed using two type of Pods, each Pod running a single container, each container running a single process.
+
+For the sake of simplicity, we provide two example Dockerfiles for building these images using Docker.
+
+You can run `git checkout dockerfile` to checkout the branch containing these files, these are `frontend/Dockerfile` and `backend/python/Dockerfile` (you may use `python`, `go` or `java`). 
+
+[TIP]
+.Too Lazy to Build?
+The built images can be found in the following links ready to be pulled: +
+link:https://ghcr.io/camptocamp/course_docker_frontend[ghcr.io/camptocamp/course_docker_frontend] +
+link:https://ghcr.io/camptocamp/course_docker_backend[ghcr.io/camptocamp/course_docker_backend]
+
+=== 2. Declaring Kubernetes Objects
+
+Onboarding an app into a K8s cluster requires you to have all app's processes running in Pods.
+Pods are the pillars of your k8s deployment, they host your running containers.
+Each Pod can be seen as a tightly coupled group of containers (or event a single one) wrapped-up to model an application specific logic.
+Containers inside a Pod share resources like network interfaces or volumes.
+See more link:https://kubernetes.io/docs/concepts/workloads/pods/[official k8s doc on Pods].
+
+**What does this mean in terms of code and workload?** +
+Well.. you basically have to declare all Pods, Network Services and any other k8s objects you need to setup your deployment using __yaml__ files.
+
+Let's quickly go through an example for spawning the __backend__ using __yaml__ files. The minimal objects required are a 
+link:https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[k8s Deployment]
+and a
+link:https://kubernetes.io/docs/concepts/services-networking/service/[k8s Service]
+
+First, create `back-deployment.yaml`: 
+
+[source,yaml]
+----
+include::back-deployment.yaml[back-deployment.yaml]
+----
+
+Once we __apply__ this file to k8s the Pod containing our backend service -among other things- will be spawned.
+
+**So.. can we run this for once and for all?**
+
+__Patience, my blue friend__. We need to make Pod's running service available to other Pods -and in the future to the outer world- with a 
+link:https://kubernetes.io/docs/concepts/services-networking/service/[k8s Service]
+
+So create a file named `back-service.yaml`:
+
+[source,yaml]
+----
+include::back-service.yaml[back-service.yaml]
+----
+
+**NOW** we are ready to onboard our __backend__ into the cluster, wohoo!
+So go ahead and apply the object declarations:
+
+``` shell
+$ kubectl apply -f back-service.yaml -f back-deployment.yaml 
+service/backend-service created
+service/backend-service created
+```
+
+List Pods:
+
+``` shell
+$ kubectl get po
+NAME                                READY   STATUS    RESTARTS   AGE
+backend-deployment-9598dcc4-7mm6z   1/1     Running   0          4s
+```
+
+List Services:
+
+``` shell
+$ kubectl get service                  
+NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+kubernetes        ClusterIP   10.43.0.1       <none>        443/TCP   56m
+backend-service   ClusterIP   10.43.205.209   <none>        80/TCP    7s
+```
+
+**We have our __backend__ service running in the cluster `o/\o`.**
+
+[NOTE] 
+====
+__backend__ service is only accessible from withing the cluster.
+k8s provides a __port-forward__  feature to pipe localhost ports to __Pods__ ports
+meant to be used for inspection purposes
+====
+
+We can forward `8080` port of our __backend__ to our localhost's `8080` port
+
+```shell
+$ export POD_NAME=backend-deployment-9598dcc4-7mm6z
+$ kubectl port-forward $POD_NAME 8080:8080
+```
+
+Query the API from your localhost with a simple HTTP GET:
+
+```shell
+$ curl localhost:8080
+
+{ "products":
+  [
+    {"name": "geomapfish", "description": "Product description 1"},
+    {"name": "georchestra", "description": "Product description 2"},
+    {"name": "geonetwork", "description": "Product description 3"}
+  ]
+}
+```
+
+=== 2. Packaging and Upgrading your K8s packages using Helm
+
+There's a 
+
+Let's checkout `helm` branch of  link:https://github.com/camptocamp/containers-course-app/[Here is a git repository] with the app we are going to use for this tutorial.
+
+
+=== All aboard! 
+
+
+
+`helm install containers-course-app . --set ingress.enabled=true`
+
