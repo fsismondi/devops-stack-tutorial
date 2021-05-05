@@ -173,4 +173,4 @@ Mission Accomplished.
 
 ---
 
-include::chapters.adoc[]
+include::README.adoc[]

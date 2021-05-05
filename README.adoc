@@ -1,3 +1,6 @@
-include::utils.adoc[]
-include::context.adoc[]
+=== Chapters
+
+link:context.html[Context] + 
+link:chapter-1.html[Chapter 1: Creating your Local Kubernetes Cluster] +
+link:chapter-2.html[Chapter 2: Onboarding a web app into the K8s Cluster]
 

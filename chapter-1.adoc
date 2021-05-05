@@ -134,4 +134,4 @@ $ kubectl delete pod hello-world
 
 ---
 
-include::chapters.adoc[]
+include::README.adoc[]

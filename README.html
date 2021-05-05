@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Tutorial: Shipping a Web App into a Kubernetes Cluster</title>
+<title>Chapters</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,146 +438,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Tutorial: Shipping a Web App into a Kubernetes Cluster</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>This tutorial aims to be a didactic kickstart material for onboarding a web app into a Kubernetes cluster from scratch.
-First, we will create a Kubernetes cluster on a local machine using <a href="https://devops-stack.io">the Devops Stack</a>.
-Then, we will run a rather trivial <code>hello-wolrd</code> app.
-Finally, we will deploy an app into the cluster and show how to manage it like a pro, with some of the best Open Source monitoring and deployment DevOps tools available.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tutorial_objectives">Tutorial Objectives</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>creating your Local Kubernetes Cluster on your local docker system using <a href="https://devops-stack.io">the Devops Stack</a>.</p>
-</li>
-<li>
-<p>onboarding a <code>hello-world</code> app into the k8s cluster</p>
-</li>
-<li>
-<p>onboarding a <code>web app</code> into the k8s cluster</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_context_the_web_app">Context: the Web App</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Lets imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
-You already have written parts of your app, a sort of a proof-of-concept.</p>
-</div>
-<div class="paragraph">
-<p>Your app consists of:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a basic REST API backend which can be used for:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>retrieving products info</p>
-</li>
-<li>
-<p>buying products</p>
-</li>
-<li>
-<p>retrieving quantity of products views</p>
-</li>
-<li>
-<p>retrieving quantity of products bought</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>a basic frontend to interact with your REST API.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><a href="https://github.com/camptocamp/containers-course-app/">Here is a git repository</a> with the app we are going to use for this tutorial.
-The app consists of a backend written in 3 different languages (Go, Python and Java) and a frontend (written in PHP).</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">💣</div>
-</td>
-<td class="content">
-The tutorial will use an example web app written by Camptocamp for trainings.
-This is simply a dummy client/server web app meant to be used for demo purposes only.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Now, to set up some context, imagine the code still needs some enhancements but your friend insists that the sites needs to go live given that his warehouse is already full and new arrivals are coming in the upcoming weeks!
-So like a fluttering bird pushed from the nest your app needs to fly now.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_requirements">Requirements</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>A few important requirements to take into account before going into production are:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The app only implements a minimal set of features, new ones will come in the near future, hence <strong>several iterations of the site may have to be rolled-out</strong>.</p>
-</li>
-<li>
-<p>These iterations may contains bugs as new features are introduced, hence <strong>the deployment may have to be rolled-back to a previous working state</strong>.</p>
-</li>
-<li>
-<p>The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence <strong>the deployment may have to be scaled-up</strong>.</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">💡</div>
-</td>
-<td class="content">
-<div class="title">Start day 1 on the right foot!</div>
-<div class="paragraph">
-<p>This tutorial will demonstrate how onboarding the web app into a Kubernetes cluster provides you with an environment where these requirements are met off the shelf.
-You will be able to test k8s features from the comfort of your localhost.
-Redeploying into other k8s clusters will be straightforward.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="sect2">
 <h3 id="_chapters">Chapters</h3>
 <div class="paragraph">
-<p><a href="README.html">Context</a><br>
+<p><a href="context.html">Context</a><br>
 <a href="chapter-1.html">Chapter 1: Creating your Local Kubernetes Cluster</a><br>
 <a href="chapter-2.html">Chapter 2: Onboarding a web app into the K8s Cluster</a></p>
 </div>
 </div>
 </div>
-</div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-28 23:48:07 +0200
+Last updated 2021-05-05 11:42:05 +0200
 </div>
 </div>
 </body>

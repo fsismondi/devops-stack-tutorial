@@ -55,5 +55,5 @@ Redeploying into other k8s clusters will be straightforward.
 ====
 
 
-include::chapters.adoc[]
+include::README.adoc[]
 
