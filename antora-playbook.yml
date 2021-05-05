@@ -6,7 +6,7 @@ site:
   #  google_analytics: "G-GDBX9466LL"
   start_page: devops-stack-tutorial::context.adoc
 content:
-  branches: [antora_refact]
+  branches: [master]
   tags: [releases/*]
   sources:
   - url: ./
