@@ -1,0 +1,6 @@
+:tip-caption: 💡
+:warning-caption: 💣
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+endif::[]

@@ -1,72 +1,23 @@
-:tip-caption: 💡
-:warning-caption: 💣
-
-ifdef::env-github[]
-:tip-caption: :bulb:
-endif::[]
-
-= Tutorial: Shipping a Web App into a Kubernetes Cluster
-
-This tutorial aims to be a didactic kickstart material for onboarding a web app into a Kubernetes cluster from scratch.
-First, we will create a Kubernetes cluster on a local machine using link:https://devops-stack.io[the Devops Stack].
-Then, we will run a rather trivial `hello-wolrd` app. 
-Finally, we will deploy an app into the cluster and show how to manage it like a pro, with some of the best Open Source monitoring and deployment DevOps tools available.
-
-[WARNING]
-The tutorial will use an example web app written by Camptocamp.
-This is simply a dummy client/server web app meant to be used for demo purposes only.
-
-== Tutorial Objectives
-
-- learning how to deploy a k8s cluster on your local docker system using link:https://devops-stack.io[the Devops Stack].
-- onboarding a `hello-world` app into the k8s cluster
-- onboarding a `web app` into the k8s cluster
-
-== Context: the Web App
-
-Lets imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
-You already have written parts of your app, a sort of a proof-of-concept.
-
-Your app consists of:
-
-* a basic REST API backend which can be used for:
-   - retrieving products info
-   - buying products
-   - retrieving quantity of products views
-   - retrieving quantity of products bought
-* a basic frontend to interact with your REST API.
-
-link:https://github.com/camptocamp/containers-course-app/[Here is a git repository] with the app we are going to use for this tutorial.
-The app consists of a backend written in 3 different languages (Go, Python and Java) and a frontend (written in PHP).
-
-Now, to set up some context, imagine the code still needs some enhancements but your friend insists that the sites needs to go live given that his warehouse is already full and new arrivals are coming in the upcoming weeks!
-So like a fluttering bird pushed from the nest your app needs to fly now.
-
-== Requirements
-
-A few important requirements to take into account before going into production are:
-
-* The app only implements a minimal set of features, new ones will come in the near future, hence **several iterations of the site may have to be rolled-out**.
-* These iterations may contains bugs as new features are introduced, hence **the deployment may have to be rolled-back to a previous working state**.
-* The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence **the deployment may have to be scaled-up**.
-
-
-[TIP]
-.Start day 1 on the right foot!
-====
-This tutorial will demonstrate how onboarding the web app into a Kubernetes cluster provides you with an environment where these requirements are met off the shelf.
-You will be able to test k8s features from the comfort of your localhost.
-Redeploying into other k8s clusters will be straightforward. 
-
-====
+include::utils.adoc[]
 
 == Creating your Local Kubernetes Cluster
 
-Let's create a minimal working example following the link:https://devops-stack.io/docs/devops-stack/0.32.0/howtos/quickstart_k3s_docker.html[Quickstart for K3s on Docker].
+=== Objectives
+
+- create your Local Kubernetes Cluster on your local docker system using the Devops Stack.
+- onboard a hello-world app into the k8s cluster
+
+We will talk about: Terraform, DevOps Stack, Kubectl
+
+Estimated time: (?)
+
+---
 
 === 1. Write your Terraform Module for the K8s Cluster
 
 Without getting into too much detail, we will instantiate a Terraform module for link:https://devops-stack.io[the Devops Stack], which will provision the k8s cluster (among other things).
+
+You can go check the link:https://devops-stack.io/docs/devops-stack/0.32.0/howtos/quickstart_k3s_docker.html[Quickstart for K3s on Docker] if want to know more about it.
 
 Create a directory, e.g. `my-devops-project`, and create the `main.tf` terraform file in it:
 
@@ -143,7 +94,7 @@ This bundle of apps, all k8s-ready, is what we at link:camptocamp.com[Camptocamp
 
 Now, your k8s cluster's API is up and running, let's run something!
 
-=== 4. Deploy a `hello-world` Pod
+=== 4. Deploy a __hello-world__ Pod
 
 Let's spawn a very basic, short-lived pod into our k8s cluster.
 
@@ -168,17 +119,19 @@ $ kubectl logs hello-world
 
 You should see as logged output: "Hello world !!"
 
-Delete the pod:
-
-```shell
-$ kubectl delete pod hello-world
-```
-
-
-
 [TIP]
 .Hip Hip Hurra!
 ====
 If you have reached this part of the tutorial, then kudos to you!
 You have deployed a k8s cluster and deployed an app on it!
 ====
+
+Finish with a bit of cleaning up:
+
+```shell
+$ kubectl delete pod hello-world
+```
+
+---
+
+include::chapters.adoc[]
