@@ -1,13 +1,13 @@
 include::utils.adoc[]
 
-= Tutorial: Shipping a Web App into a Kubernetes Cluster
+= Shipping a Web App into a Kubernetes Cluster
 
 This tutorial aims to be a didactic kickstart material for onboarding a web app into a Kubernetes cluster from scratch.
 First, we will create a Kubernetes cluster on a local machine using link:https://devops-stack.io[the Devops Stack].
 Then, we will run a rather trivial `hello-wolrd` app. 
 Finally, we will deploy an app into the cluster and show how to manage it like a pro, with some of the best Open Source monitoring and deployment DevOps tools available.
 
-== Tutorial Objectives
+== Objectives
 
 - creating your Local Kubernetes Cluster on your local docker system using link:https://devops-stack.io[the Devops Stack].
 - onboarding a `hello-world` app into the k8s cluster
@@ -20,15 +20,15 @@ You already have written parts of your app, a sort of a proof-of-concept.
 
 Your app consists of:
 
-* a basic REST API backend which can be used for:
+* a basic REST API __backend__ which can be used for:
    - retrieving products info
    - buying products
    - retrieving quantity of products views
    - retrieving quantity of products bought
-* a basic frontend to interact with your REST API.
+* a basic __frontend__ to interact with your REST API.
 
 link:https://github.com/camptocamp/containers-course-app/[Here is a git repository] with the app we are going to use for this tutorial.
-The app consists of a backend written in 3 different languages (Go, Python and Java) and a frontend (written in PHP).
+The app consists of a __backend__ written in 3 different languages (Go, Python and Java) and a __frontend__ (written in PHP).
 
 [WARNING]
 The tutorial will use an example web app written by Camptocamp for trainings.
@@ -53,7 +53,3 @@ This tutorial will demonstrate how onboarding the web app into a Kubernetes clus
 You will be able to test k8s features from the comfort of your localhost.
 Redeploying into other k8s clusters will be straightforward. 
 ====
-
-
-include::README.adoc[]
-

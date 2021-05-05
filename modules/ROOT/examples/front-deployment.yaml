@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/camptocamp/course_docker_frontend:latest
+        env:
+          - name: BACKEND_HOST
+            value: backend
+          - name: BACKEND_PORT
+            value: "80"
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

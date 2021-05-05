@@ -1,0 +1,7 @@
+---
+name: devops-stack-tutorial
+title: DevOps Stack Tutorial
+version: latest
+prerelease: true
+nav:
+  - modules/ROOT/nav.adoc
