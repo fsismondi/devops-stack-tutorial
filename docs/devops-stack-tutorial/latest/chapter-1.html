@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Creating your Local Kubernetes Cluster :: DevOps Stack Tutorial</title>
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>var uiRootPath = '../../_'</script>
+    <link rel="icon" href="../../_/img/favicon.png" type="image/x-icon">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://devops-stack.io"><img width="200px" src="/images/devops-stack-logo_light_by_c2c_black.png"/></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>    
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/camptocamp/devops-stack"><i class="fa fa-github-alt"></i>&nbsp;GitHub</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://terraboard.io">Terraboard</a>
+            <a class="navbar-item" href="https://bivac.io">Bivac</a>
+            <a class="navbar-item" href="https://camptocamp.github.io/facterdb">FacterDB</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://camptocamp.com">Camptocamp</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="devops-stack-tutorial" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">DevOps Stack Tutorial</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="context.html">Shipping a Web App into a Kubernetes Cluster</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="chapter-1.html">Creating your Local Kubernetes Cluster</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="chapter-2.html">Onboarding a Web App into the K8s Cluster</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">DevOps Stack Tutorial</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">DevOps Stack Tutorial</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="context.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">DevOps Stack Tutorial</a></li>
+    <li><a href="chapter-1.html">Creating your Local Kubernetes Cluster</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/fsismondi/devops-stack-tutorial/edit/master/modules/ROOT/pages/chapter-1.adoc"><i class="fa fa-github-alt"></i>&nbsp;Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Creating your Local Kubernetes Cluster</h1>
+<div class="sect1">
+<h2 id="_objectives"><a class="anchor" href="#_objectives"></a>Objectives</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>create your Local Kubernetes Cluster on your local docker system using the Devops Stack.</p>
+</li>
+<li>
+<p>onboard a hello-world app into the k8s cluster</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We will talk about: Terraform, DevOps Stack, Kubectl</p>
+</div>
+<div class="paragraph">
+<p>Estimated time: (?)</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_write_your_terraform_module_for_the_k8s_cluster"><a class="anchor" href="#_1_write_your_terraform_module_for_the_k8s_cluster"></a>1. Write your Terraform Module for the K8s Cluster</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Without getting into too much detail, we will instantiate a Terraform module for <a href="https://devops-stack.io">the Devops Stack</a>, which will provision the k8s cluster (among other things).</p>
+</div>
+<div class="paragraph">
+<p>You can go check the <a href="https://devops-stack.io/docs/devops-stack/0.32.0/howtos/quickstart_k3s_docker.html">Quickstart for K3s on Docker</a> if want to know more about it.</p>
+</div>
+<div class="paragraph">
+<p>Create a directory, e.g. <code>my-devops-project</code>, and create the <code>main.tf</code> terraform file in it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hcl hljs" data-lang="hcl">module "cluster" {
+  source = "git::https://github.com/camptocamp/devops-stack.git//modules/k3s/docker?ref=v0.30.0"
+  cluster_name = "my-cluster"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create also a simple output file, named <code>outputs.tf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hcl hljs" data-lang="hcl">output "kubeconfig" {
+  sensitive = true
+  value     = module.cluster.kubeconfig
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_deploy_the_cluster"><a class="anchor" href="#_2_deploy_the_cluster"></a>2. Deploy the Cluster</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now, let&#8217;s build the cluster using Terraform:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">Install Terraform CLI</a> and then run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ terraform init
+$ terraform apply
+$ terraform output kubeconfig</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_verify_the_k8s_cluster_api_is_up"><a class="anchor" href="#_3_verify_the_k8s_cluster_api_is_up"></a>3. Verify the K8s Cluster API is up</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now the cluster is running using local Docker containers.
+To verify this, <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/">install <code>kubectl</code></a> to interact with your cluster from your favorite terminal.</p>
+</div>
+<div class="paragraph">
+<p>Export the path to the kubeconfig file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ export KUBECONFIG=$PWD/kubeconfig.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Query the API to list the cluster pods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl get pods --all-namespaces
+
+NAMESPACE               NAME                                                        READY   STATUS    RESTARTS   AGE
+kube-system             local-path-provisioner-6d59f47c7-nq647                      1/1     Running   0          19m
+kube-system             metrics-server-7949d47784-4zvd7                             1/1     Running   0          17m
+kube-system             coredns-7944c66d8d-x2jlr                                    1/1     Running   0          19m
+argocd                  argocd-redis-5644d9f997-4wlgj                               1/1     Running   0          19m
+argocd                  argocd-dex-server-b7d78f98-rvh2g                            1/1     Running   0          19m
+argocd                  argocd-server-56986c4596-fgbzn                              1/1     Running   0          19m
+argocd                  argocd-application-controller-5c5d495d77-nkpvw              1/1     Running   0          19m
+argocd                  argocd-repo-server-59f5678fcd-qjs5x                         1/1     Running   0          19m
+kube-prometheus-stack   kube-prometheus-stack-operator-54944cdfcc-ddq92             1/1     Running   0          18m
+kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-f8jpp        1/1     Running   0          18m
+kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-gpqvg        1/1     Running   0          18m
+kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-wrn5g        1/1     Running   0          18m
+kube-prometheus-stack   kube-prometheus-stack-kube-state-metrics-6b65958dcd-vhd6f   1/1     Running   0          18m
+kube-prometheus-stack   kube-prometheus-stack-grafana-5b78d78748-zc8dj              2/2     Running   0          18m
+(...)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you may have noticed, inside of the k8s cluster we already have several pods running.
+Don&#8217;t panic, this is normal…
+They are meant to handle the app monitoring and operations.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+This bundle of apps, all k8s-ready, is what we at <a href="camptocamp.com">Camptocamp</a> call <a href="https://devops-stack.io">the Devops Stack</a>, we will come back to this later, but in short they will provide out-of-the-box the tools you need to manage and operate your app.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, your k8s cluster&#8217;s API is up and running, let&#8217;s run something!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_4_deploy_a_hello_world_pod"><a class="anchor" href="#_4_deploy_a_hello_world_pod"></a>4. Deploy a <em>hello-world</em> Pod</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s spawn a very basic, short-lived pod into our k8s cluster.</p>
+</div>
+<div class="paragraph">
+<p>First, create a <code>pod-hello-world.yaml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  restartPolicy: Never
+  containers:
+    - name: hello-world
+      image: "ubuntu:20.04"
+      command: ["/bin/echo", "Hello world !!"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Proceed to spawn pod:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl apply -f pod-hello-world.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Check the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl logs hello-world</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see as logged output: "Hello world !!"</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Hip Hip Hurra!</div>
+<div class="paragraph">
+<p>If you have reached this part of the tutorial, then kudos to you!
+You have deployed a k8s cluster and deployed an app on it!</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Finish with a bit of cleaning up:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl delete pod hello-world</code></pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright © Camptocamp 2021 — All Rights Reserved.</p>
+</footer>
+<script>
+  window.antora = window.antora || {}
+  window.antora.basePath = '../..'
+  window.antora.pagePath = '/devops-stack-tutorial/latest/chapter-1.html'
+</script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/terraform.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
