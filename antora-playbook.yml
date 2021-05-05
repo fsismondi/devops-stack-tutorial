@@ -1,0 +1,21 @@
+site:
+  title: DevOps Stack Tutorial
+  # the 404 page and sitemap files only get generated when the url property is set
+  #url: https://devops-stack.io/docs
+  #keys:
+  #  google_analytics: "G-GDBX9466LL"
+  start_page: devops-stack-tutorial::context.adoc
+content:
+  branches: [antora_refact]
+  tags: [releases/*]
+  sources:
+  - url: ./
+ui:
+  bundle:
+    url: https://github.com/camptocamp/devops-stack-antora-ui/releases/download/master-LATEST/ui-bundle.zip
+    snapshot: true
+  supplemental_files:
+  - path: ui.yml
+    contents: |
+      static_files: [ .nojekyll ]
+  - path: .nojekyll

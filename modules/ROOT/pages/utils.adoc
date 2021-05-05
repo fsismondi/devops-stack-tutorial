@@ -1,5 +1,5 @@
-:tip-caption: 💡
-:warning-caption: 💣
+// :tip-caption: 💡
+// :warning-caption: 💣
 
 ifdef::env-github[]
 :tip-caption: :bulb:

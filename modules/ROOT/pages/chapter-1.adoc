@@ -1,8 +1,8 @@
 include::utils.adoc[]
 
-== Creating your Local Kubernetes Cluster
+= Creating your Local Kubernetes Cluster
 
-=== Objectives
+== Objectives
 
 - create your Local Kubernetes Cluster on your local docker system using the Devops Stack.
 - onboard a hello-world app into the k8s cluster
@@ -13,7 +13,7 @@ Estimated time: (?)
 
 ---
 
-=== 1. Write your Terraform Module for the K8s Cluster
+== 1. Write your Terraform Module for the K8s Cluster
 
 Without getting into too much detail, we will instantiate a Terraform module for link:https://devops-stack.io[the Devops Stack], which will provision the k8s cluster (among other things).
 
@@ -38,7 +38,7 @@ output "kubeconfig" {
 
 ```
 
-=== 2. Deploy the Cluster
+== 2. Deploy the Cluster
 
 Now, let's build the cluster using Terraform:
 
@@ -50,7 +50,7 @@ $ terraform apply
 $ terraform output kubeconfig
 ```
 
-=== 3. Verify the K8s Cluster API is up
+== 3. Verify the K8s Cluster API is up
 
 Now the cluster is running using local Docker containers.
 To verify this, link:https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/[install `kubectl`] to interact with your cluster from your favorite terminal.
@@ -94,7 +94,7 @@ This bundle of apps, all k8s-ready, is what we at link:camptocamp.com[Camptocamp
 
 Now, your k8s cluster's API is up and running, let's run something!
 
-=== 4. Deploy a __hello-world__ Pod
+== 4. Deploy a __hello-world__ Pod
 
 Let's spawn a very basic, short-lived pod into our k8s cluster.
 
@@ -102,7 +102,7 @@ First, create a `pod-hello-world.yaml` file:
 
 [source,yaml]
 ----
-include::pod-hello-world.yaml[]
+include::example$pod-hello-world.yaml[]
 ----
 
 Proceed to spawn pod:
@@ -131,7 +131,3 @@ Finish with a bit of cleaning up:
 ```shell
 $ kubectl delete pod hello-world
 ```
-
----
-
-include::README.adoc[]
