@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Onboarding a Web App into the K8s Cluster :: DevOps Stack Tutorial</title>
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>var uiRootPath = '../../_'</script>
+    <link rel="icon" href="../../_/img/favicon.png" type="image/x-icon">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://devops-stack.io"><img width="200px" src="/images/devops-stack-logo_light_by_c2c_black.png"/></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>    
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/camptocamp/devops-stack"><i class="fa fa-github-alt"></i>&nbsp;GitHub</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://terraboard.io">Terraboard</a>
+            <a class="navbar-item" href="https://bivac.io">Bivac</a>
+            <a class="navbar-item" href="https://camptocamp.github.io/facterdb">FacterDB</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://camptocamp.com">Camptocamp</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="devops-stack-tutorial" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">DevOps Stack Tutorial</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="context.html">Shipping a Web App into a Kubernetes Cluster</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="chapter-1.html">Creating your Local Kubernetes Cluster</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="chapter-2.html">Onboarding a Web App into the K8s Cluster</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">DevOps Stack Tutorial</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="index.html">DevOps Stack Tutorial</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="context.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">DevOps Stack Tutorial</a></li>
+    <li><a href="chapter-2.html">Onboarding a Web App into the K8s Cluster</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/fsismondi/devops-stack-tutorial/edit/master/modules/ROOT/pages/chapter-2.adoc"><i class="fa fa-github-alt"></i>&nbsp;Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Onboarding a Web App into the K8s Cluster</h1>
+<div class="sect1">
+<h2 id="_objectives"><a class="anchor" href="#_objectives"></a>Objectives</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>onboarding a web app into the K8s Cluster</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We will talk about: Containers, Kubernetes, Kubectl, Helm</p>
+</div>
+<div class="paragraph">
+<p>Estimated time: (?)</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_containerizing_the_web_app"><a class="anchor" href="#_1_containerizing_the_web_app"></a>1. Containerizing the Web App</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In container-land, it&#8217;s a recommended practice to have a single process running on each container.
+Our products site, with its php based <em>frontend</em> and the API <em>backend</em>, can be deployed using two type of Pods, each Pod running a single container, each container running a single process.</p>
+</div>
+<div class="paragraph">
+<p>For the sake of simplicity, we provide two example Dockerfiles for building these images using Docker.</p>
+</div>
+<div class="paragraph">
+<p>You can run <code>git checkout dockerfile</code> to checkout the branch containing these files, these are <code>frontend/Dockerfile</code> and <code>backend/python/Dockerfile</code> (you may use <code>python</code>, <code>go</code> or <code>java</code>).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Too Lazy to Build?</div>
+Images can be pulled directly at:<br>
+<a href="https://ghcr.io/camptocamp/course_docker_frontend">ghcr.io/camptocamp/course_docker_frontend</a><br>
+<a href="https://ghcr.io/camptocamp/course_docker_backend">ghcr.io/camptocamp/course_docker_backend</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_declaring_kubernetes_objects"><a class="anchor" href="#_2_declaring_kubernetes_objects"></a>2. Declaring Kubernetes Objects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Onboarding an app into a K8s cluster requires you to have all app&#8217;s processes running in Pods.
+Pods are the pillars of your k8s deployment, they host your running containers.
+Each Pod can be seen as a tightly coupled group of containers (or event a single one) wrapped-up to model an application specific logic.
+Containers inside a Pod share resources like network interfaces or volumes.
+See more <a href="https://kubernetes.io/docs/concepts/workloads/pods/">official k8s doc on Pods</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>What does this mean in terms of code and workload?</strong><br>
+Well.. you basically have to declare all Pods, Network Services and any other k8s objects you need to setup your deployment using <em>yaml</em> files.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s quickly go through an example for spawning the <em>backend</em> using <em>yaml</em> files. The minimal objects required are a
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">k8s Deployment</a>
+and a
+<a href="https://kubernetes.io/docs/concepts/services-networking/service/">k8s Service</a></p>
+</div>
+<div class="paragraph">
+<p>First, create <code>backend-deployment.yaml</code> and <code>backend-service.yaml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: ghcr.io/camptocamp/course_docker_backend:python
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Service
+apiVersion: v1
+metadata:
+  name: backend-service
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+  selector:
+    app: backend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>NOW</strong> we are ready to onboard our <em>backend</em> into the cluster, wohoo!
+So go ahead and apply the object declarations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl apply -f backend-service.yaml -f backend-deployment.yaml
+service/backend-service created
+service/backend-service created</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>List Pods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl get po
+NAME                                READY   STATUS    RESTARTS   AGE
+backend-deployment-9598dcc4-7mm6z   1/1     Running   0          4s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>List Services:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl get service
+NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+kubernetes        ClusterIP   10.43.0.1       &lt;none&gt;        443/TCP   56m
+backend-service   ClusterIP   10.43.205.209   &lt;none&gt;        80/TCP    7s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>We have our <em>backend</em> service running in the cluster <code>o/\o</code>.</strong></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><em>backend</em> service is only accessible from withing the cluster.
+k8s provides a <em>port-forward</em>  feature to pipe localhost ports to <em>Pods</em> ports
+meant to be used for inspection purposes</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can forward <code>8080</code> port of our <em>backend</em> to our localhost&#8217;s <code>8080</code> port</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ export POD_NAME=backend-deployment-9598dcc4-7mm6z
+$ kubectl port-forward $POD_NAME 8080:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Query the API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ curl localhost:8080
+
+{ "products":
+  [
+    {"name": "geomapfish", "description": "Product description 1"},
+    {"name": "georchestra", "description": "Product description 2"},
+    {"name": "geonetwork", "description": "Product description 3"}
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Wait&#8230;&#8203; What about the <em>frontend</em>?</strong></p>
+</div>
+<div class="paragraph">
+<p>You can create the <em>frontend</em> deployment and service just as we did for the <em>backend</em> if you want to play a bit more with k8s object declarations.
+Fortunately for the continuation of this tutorial we have a shortcut.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_packaging_and_upgrading_your_k8s_packages_using_helm_chart"><a class="anchor" href="#_3_packaging_and_upgrading_your_k8s_packages_using_helm_chart"></a>3. Packaging and Upgrading your K8s packages using Helm Chart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s talk about package management.
+When working with a certain application or bundle of applications (stack) we want deterministic behavior for installing, upgrading, configuring, and removing them.
+In the context of k8s, Helm is the best tool there is for this.</p>
+</div>
+<div class="paragraph">
+<p><strong>Hands-on the Helm!</strong></p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s git-checkout the <code>helm</code> branch of  <a href="https://github.com/camptocamp/containers-course-app/">containers-course-app</a>.
+Inside <code>helm/containers-course-app</code> you will find Helm Chart written to manage the web app package with k8s.</p>
+</div>
+<div class="paragraph">
+<p>We can first simulate an <code>install</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd helm/containers-course-app
+$ helm install --debug --dry-run test helm/containers-course-app/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may recognize on the output some similarities with the <em>yaml</em> files we created before.</p>
+</div>
+<div class="paragraph">
+<p>Display default <code>values</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">helm show values helm/containers-course-app/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Display all content of the Helm Chart:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ helm show all .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the continuation of this tutorial, Helm will be out tool for interacting with the web-app and k8s, all of a sudden life becomes simpler.</p>
+</div>
+<div class="paragraph">
+<p><strong>All aboard!</strong></p>
+</div>
+<div class="paragraph">
+<p>Install the web-app into k8s cluster using Helm:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd helm/containers-course-app
+$ helm install web-app .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For testing the app we should first forward ports of either <em>frontend</em> or <em>backend</em> Pod:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ export POD_NAME=frontend-deployment-9598dcc4-7mm6z
+$ kubectl port-forward $POD_NAME 8080:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open your browser using <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code></p>
+</div>
+<div class="paragraph">
+<p>An html catalog of products is displayed?</p>
+</div>
+<div class="paragraph">
+<p>Mission Accomplished.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright © Camptocamp 2021 — All Rights Reserved.</p>
+</footer>
+<script>
+  window.antora = window.antora || {}
+  window.antora.basePath = '../..'
+  window.antora.pagePath = '/devops-stack-tutorial/latest/chapter-2.html'
+</script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/terraform.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
