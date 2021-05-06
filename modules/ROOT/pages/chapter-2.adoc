@@ -15,11 +15,9 @@ Estimated time: (?)
 == 1. Containerizing the Web App
 
 In container-land, it's a recommended practice to have a single process running on each container.
-Our products site, with its php based __frontend__ and the API __backend__, can be deployed using two type of Pods, each Pod running a single container, each container running a single process.
+Our web app,  __frontend__ and __backend__, will be deployed using two Pods, each Pod running a single container, each container running a single process.
 
-For the sake of simplicity, we provide two example Dockerfiles for building these images using Docker.
-
-You can run `git checkout dockerfile` to checkout the branch containing these files, these are `frontend/Dockerfile` and `backend/python/Dockerfile` (you may use `python`, `go` or `java`). 
+For the sake of simplicity, we provide two example Dockerfiles for building these images but also the URL to pull images directly.
 
 [TIP]
 .Too Lazy to Build?
@@ -27,9 +25,14 @@ Images can be pulled directly at: +
 link:https://ghcr.io/camptocamp/course_docker_frontend[ghcr.io/camptocamp/course_docker_frontend] +
 link:https://ghcr.io/camptocamp/course_docker_backend[ghcr.io/camptocamp/course_docker_backend]
 
+For building the images, you `git checkout dockerfile` where we will find `frontend/Dockerfile` and `backend/python/Dockerfile` (you may use `python`, `go` or `java`). 
+
+
 == 2. Declaring Kubernetes Objects
 
 Onboarding an app into a K8s cluster requires you to have all app's processes running in Pods.
+
+**Pods?** +
 Pods are the pillars of your k8s deployment, they host your running containers.
 Each Pod can be seen as a tightly coupled group of containers (or event a single one) wrapped-up to model an application specific logic.
 Containers inside a Pod share resources like network interfaces or volumes.
@@ -116,7 +119,7 @@ $ curl localhost:8080
 You can create the __frontend__ deployment and service just as we did for the __backend__ if you want to play a bit more with k8s object declarations.
 Fortunately for the continuation of this tutorial we have a shortcut.
 
-== 3. Packaging and Upgrading your K8s packages using Helm Chart
+== 3. Packaging the Web App for k8s using Helm Chart
 
 Let's talk about package management.
 When working with a certain application or bundle of applications (stack) we want deterministic behavior for installing, upgrading, configuring, and removing them.
@@ -158,7 +161,7 @@ $ cd helm/containers-course-app
 $ helm install web-app .
 ```
 
-For testing the app we should first forward ports of either __frontend__ or __backend__ Pod:
+For testing the app we should first forward ports of either __frontend__ Pod:
 
 ```shell
 $ export POD_NAME=frontend-deployment-9598dcc4-7mm6z
