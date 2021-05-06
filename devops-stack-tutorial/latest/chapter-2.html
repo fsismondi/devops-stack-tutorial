@@ -122,13 +122,10 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p>In container-land, it&#8217;s a recommended practice to have a single process running on each container.
-Our products site, with its php based <em>frontend</em> and the API <em>backend</em>, can be deployed using two type of Pods, each Pod running a single container, each container running a single process.</p>
+Our web app,  <em>frontend</em> and <em>backend</em>, will be deployed using two Pods, each Pod running a single container, each container running a single process.</p>
 </div>
 <div class="paragraph">
-<p>For the sake of simplicity, we provide two example Dockerfiles for building these images using Docker.</p>
-</div>
-<div class="paragraph">
-<p>You can run <code>git checkout dockerfile</code> to checkout the branch containing these files, these are <code>frontend/Dockerfile</code> and <code>backend/python/Dockerfile</code> (you may use <code>python</code>, <code>go</code> or <code>java</code>).</p>
+<p>For the sake of simplicity, we provide two example Dockerfiles for building these images but also the URL to pull images directly.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -145,13 +142,19 @@ Images can be pulled directly at:<br>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>For building the images, you <code>git checkout dockerfile</code> where we will find <code>frontend/Dockerfile</code> and <code>backend/python/Dockerfile</code> (you may use <code>python</code>, <code>go</code> or <code>java</code>).</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_2_declaring_kubernetes_objects"><a class="anchor" href="#_2_declaring_kubernetes_objects"></a>2. Declaring Kubernetes Objects</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Onboarding an app into a K8s cluster requires you to have all app&#8217;s processes running in Pods.
+<p>Onboarding an app into a K8s cluster requires you to have all app&#8217;s processes running in Pods.</p>
+</div>
+<div class="paragraph">
+<p><strong>Pods?</strong><br>
 Pods are the pillars of your k8s deployment, they host your running containers.
 Each Pod can be seen as a tightly coupled group of containers (or event a single one) wrapped-up to model an application specific logic.
 Containers inside a Pod share resources like network interfaces or volumes.
@@ -299,7 +302,7 @@ Fortunately for the continuation of this tutorial we have a shortcut.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_3_packaging_and_upgrading_your_k8s_packages_using_helm_chart"><a class="anchor" href="#_3_packaging_and_upgrading_your_k8s_packages_using_helm_chart"></a>3. Packaging and Upgrading your K8s packages using Helm Chart</h2>
+<h2 id="_3_packaging_the_web_app_for_k8s_using_helm_chart"><a class="anchor" href="#_3_packaging_the_web_app_for_k8s_using_helm_chart"></a>3. Packaging the Web App for k8s using Helm Chart</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Let&#8217;s talk about package management.
@@ -357,7 +360,7 @@ $ helm install web-app .</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For testing the app we should first forward ports of either <em>frontend</em> or <em>backend</em> Pod:</p>
+<p>For testing the app we should first forward ports of either <em>frontend</em> Pod:</p>
 </div>
 <div class="listingblock">
 <div class="content">
