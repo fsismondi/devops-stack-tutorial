@@ -42,7 +42,7 @@ jobs:
        uses: actions/download-artifact@v1
        with:
          name: antora
-         path: "${{ github.workspace }}/${{ env.SITE_DIR }}/docs"
+         path: "${{ github.workspace }}/${{ env.SITE_DIR }}"
      - name: Deploy to GitHub Pages
        uses: JamesIves/github-pages-deploy-action@3.2.1
        with:
