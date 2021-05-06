@@ -20,8 +20,7 @@ Our web app,  __frontend__ and __backend__, will be deployed using two Pods, eac
 For the sake of simplicity, we provide two example Dockerfiles for building these images but also the URL to pull images directly.
 
 [TIP]
-.Too Lazy to Build?
-Images can be pulled directly at: +
+.Too Lazy to Build? You can pull images from repos:
 link:https://ghcr.io/camptocamp/course_docker_frontend[ghcr.io/camptocamp/course_docker_frontend] +
 link:https://ghcr.io/camptocamp/course_docker_backend[ghcr.io/camptocamp/course_docker_backend]
 
@@ -46,15 +45,17 @@ link:https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[k8s D
 and a
 link:https://kubernetes.io/docs/concepts/services-networking/service/[k8s Service]
 
-First, create `backend-deployment.yaml` and `backend-service.yaml`:
+First, create __backend__ descriptors:
 
 [source,yaml]
 ----
+# backend-deployment.yaml
 include::example$backend-deployment.yaml[]
 ----
 
 [source,yaml]
 ----
+# backend-service.yaml
 include::example$backend-service.yaml[]
 ----
 
