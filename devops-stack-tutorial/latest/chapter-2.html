@@ -134,8 +134,7 @@ Our web app,  <em>frontend</em> and <em>backend</em>, will be deployed using two
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-<div class="title">Too Lazy to Build?</div>
-Images can be pulled directly at:<br>
+<div class="title">Too Lazy to Build? You can pull images from repos:</div>
 <a href="https://ghcr.io/camptocamp/course_docker_frontend">ghcr.io/camptocamp/course_docker_frontend</a><br>
 <a href="https://ghcr.io/camptocamp/course_docker_backend">ghcr.io/camptocamp/course_docker_backend</a>
 </td>
@@ -171,11 +170,12 @@ and a
 <a href="https://kubernetes.io/docs/concepts/services-networking/service/">k8s Service</a></p>
 </div>
 <div class="paragraph">
-<p>First, create <code>backend-deployment.yaml</code> and <code>backend-service.yaml</code>:</p>
+<p>First, create <em>backend</em> descriptors:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: apps/v1
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"># backend-deployment.yaml
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
@@ -202,7 +202,8 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Service
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"># backend-service.yaml
+kind: Service
 apiVersion: v1
 metadata:
   name: backend-service
