@@ -29,7 +29,7 @@ For building the images, you `git checkout dockerfile` where we will find `front
 
 == 2. Declaring Kubernetes Objects
 
-Onboarding an app into a K8s cluster requires you to have all app's processes running in Pods.
+Onboarding the web app into a K8s cluster requires you to have all app's processes running in Pods.
 
 **Pods?** +
 Pods are the pillars of your k8s deployment, they host your running containers.
