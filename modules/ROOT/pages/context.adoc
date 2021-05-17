@@ -4,27 +4,27 @@ include::utils.adoc[]
 
 This tutorial aims to be a didactic kickstart material for onboarding a web app into a Kubernetes cluster from scratch.
 First, we will create a Kubernetes cluster on a local machine using link:https://devops-stack.io[the Devops Stack].
-Then, we will run a rather trivial `hello-world` app. 
+Then, we will deploy a `hello-world` app. 
 Finally, we will deploy an app into the cluster and show how to manage it like a pro, with some of the best Open Source monitoring and deployment DevOps tools available.
 
 == Objectives
 
-- creating your Local Kubernetes Cluster on your local docker system using link:https://devops-stack.io[the Devops Stack].
-- onboarding a `hello-world` app into the k8s cluster
-- onboarding a `web app` into the k8s cluster
+- Creating your Local Kubernetes Cluster on your local docker system using link:https://devops-stack.io[the Devops Stack]
+- Onboarding a `hello-world` app into the k8s cluster
+- Onboarding a `web app` into the k8s cluster
 
 == Context: the Web App
 
-Lets imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
+Let's imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
 You already have written parts of your app, a sort of a proof-of-concept.
 
 Your app consists of:
 
 * a basic REST API __backend__ which can be used for:
-   - retrieving products info
-   - buying products
-   - retrieving quantity of products views
-   - retrieving quantity of products bought
+   - Retrieving products info
+   - Buying products
+   - Retrieving quantity of products views
+   - Retrieving quantity of products bought
 * a basic __frontend__ to interact with your REST API.
 
 link:https://github.com/camptocamp/containers-course-app/[Here is a git repository] with the app we are going to use for this tutorial.
@@ -39,11 +39,11 @@ So like a fluttering bird pushed from the nest your app needs to fly now.
 
 == Requirements
 
-A few important requirements to take into account before going into production are:
+A few important requirements to take into account before going to production are:
 
-* The app only implements a minimal set of features, new ones will come in the near future, hence **several iterations of the site may have to be rolled-out**.
-* These iterations may contains bugs as new features are introduced, hence **the deployment may have to be rolled-back to a previous working state**.
-* The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence **the deployment may have to be scaled-up**.
+* The app implements a minimal set of features, new ones will come in the near future, hence **several iterations of the site may have to be rolled-out**
+* These iterations may contain bugs as new features are introduced, hence **the deployment may have to be rolled-back to a previous working state**
+* The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence **the deployment may have to be scaled-up**
 
 
 [TIP]
