@@ -103,7 +103,7 @@
 <div class="paragraph">
 <p>This tutorial aims to be a didactic kickstart material for onboarding a web app into a Kubernetes cluster from scratch.
 First, we will create a Kubernetes cluster on a local machine using <a href="https://devops-stack.io">the Devops Stack</a>.
-Then, we will run a rather trivial <code>hello-world</code> app.
+Then, we will deploy a <code>hello-world</code> app.
 Finally, we will deploy an app into the cluster and show how to manage it like a pro, with some of the best Open Source monitoring and deployment DevOps tools available.</p>
 </div>
 </div>
@@ -114,13 +114,13 @@ Finally, we will deploy an app into the cluster and show how to manage it like a
 <div class="ulist">
 <ul>
 <li>
-<p>creating your Local Kubernetes Cluster on your local docker system using <a href="https://devops-stack.io">the Devops Stack</a>.</p>
+<p>Creating your Local Kubernetes Cluster on your local docker system using <a href="https://devops-stack.io">the Devops Stack</a></p>
 </li>
 <li>
-<p>onboarding a <code>hello-world</code> app into the k8s cluster</p>
+<p>Onboarding a <code>hello-world</code> app into the k8s cluster</p>
 </li>
 <li>
-<p>onboarding a <code>web app</code> into the k8s cluster</p>
+<p>Onboarding a <code>web app</code> into the k8s cluster</p>
 </li>
 </ul>
 </div>
@@ -130,7 +130,7 @@ Finally, we will deploy an app into the cluster and show how to manage it like a
 <h2 id="_context_the_web_app"><a class="anchor" href="#_context_the_web_app"></a>Context: the Web App</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Lets imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
+<p>Let&#8217;s imagine for a second you are software developer helping a friend set up an e-commerce site to sell some products online.
 You already have written parts of your app, a sort of a proof-of-concept.</p>
 </div>
 <div class="paragraph">
@@ -143,16 +143,16 @@ You already have written parts of your app, a sort of a proof-of-concept.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>retrieving products info</p>
+<p>Retrieving products info</p>
 </li>
 <li>
-<p>buying products</p>
+<p>Buying products</p>
 </li>
 <li>
-<p>retrieving quantity of products views</p>
+<p>Retrieving quantity of products views</p>
 </li>
 <li>
-<p>retrieving quantity of products bought</p>
+<p>Retrieving quantity of products bought</p>
 </li>
 </ul>
 </div>
@@ -189,18 +189,18 @@ So like a fluttering bird pushed from the nest your app needs to fly now.</p>
 <h2 id="_requirements"><a class="anchor" href="#_requirements"></a>Requirements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A few important requirements to take into account before going into production are:</p>
+<p>A few important requirements to take into account before going to production are:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The app only implements a minimal set of features, new ones will come in the near future, hence <strong>several iterations of the site may have to be rolled-out</strong>.</p>
+<p>The app implements a minimal set of features, new ones will come in the near future, hence <strong>several iterations of the site may have to be rolled-out</strong></p>
 </li>
 <li>
-<p>These iterations may contains bugs as new features are introduced, hence <strong>the deployment may have to be rolled-back to a previous working state</strong>.</p>
+<p>These iterations may contain bugs as new features are introduced, hence <strong>the deployment may have to be rolled-back to a previous working state</strong></p>
 </li>
 <li>
-<p>The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence <strong>the deployment may have to be scaled-up</strong>.</p>
+<p>The e-commerce site may grow in popularity so the engine that serves all the REST API calls can cope with the requests, hence <strong>the deployment may have to be scaled-up</strong></p>
 </li>
 </ul>
 </div>
