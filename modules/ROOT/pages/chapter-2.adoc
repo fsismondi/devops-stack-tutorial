@@ -134,7 +134,6 @@ Inside `helm/containers-course-app` you will find Helm Chart written to manage t
 We can first simulate an `install`: 
 
 ```shell
-$ cd helm/containers-course-app
 $ helm install --debug --dry-run test helm/containers-course-app/
 ```
 
@@ -148,7 +147,7 @@ helm show values helm/containers-course-app/
 
 Display all content of the Helm Chart:
 ```
-$ helm show all .
+$ helm show all helm/containers-course-app/
 ```
 
 For the continuation of this tutorial, Helm will be out tool for interacting with the web-app and k8s, all of a sudden life becomes simpler.
@@ -158,14 +157,14 @@ For the continuation of this tutorial, Helm will be out tool for interacting wit
 Install the web-app into k8s cluster using Helm:
 
 ```shell
-$ cd helm/containers-course-app
-$ helm install web-app .
+$ helm install web-app helm/containers-course-app/
 ```
 
 For testing the app we should first forward ports of either __frontend__ Pod:
 
 ```shell
-$ export POD_NAME=frontend-deployment-9598dcc4-7mm6z
+$ kubectl get pods
+$ export POD_NAME=web-app-containers-course-app-frontend-798bb7c898-vh7f6
 $ kubectl port-forward $POD_NAME 8080:8080
 ```
 
