@@ -322,8 +322,7 @@ Inside <code>helm/containers-course-app</code> you will find Helm Chart written 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd helm/containers-course-app
-$ helm install --debug --dry-run test helm/containers-course-app/</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ helm install --debug --dry-run test helm/containers-course-app/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -342,7 +341,7 @@ $ helm install --debug --dry-run test helm/containers-course-app/</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>$ helm show all .</code></pre>
+<pre class="highlightjs highlight"><code>$ helm show all helm/containers-course-app/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -356,8 +355,7 @@ $ helm install --debug --dry-run test helm/containers-course-app/</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd helm/containers-course-app
-$ helm install web-app .</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ helm install web-app helm/containers-course-app/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -365,7 +363,8 @@ $ helm install web-app .</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ export POD_NAME=frontend-deployment-9598dcc4-7mm6z
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ kubectl get pods
+$ export POD_NAME=web-app-containers-course-app-frontend-798bb7c898-vh7f6
 $ kubectl port-forward $POD_NAME 8080:8080</code></pre>
 </div>
 </div>
